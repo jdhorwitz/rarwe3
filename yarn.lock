@@ -2074,6 +2074,12 @@ ember-cli-string-utils@^1.0.0, ember-cli-string-utils@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ember-cli-string-utils/-/ember-cli-string-utils-1.1.0.tgz#39b677fc2805f55173735376fcef278eaa4452a1"
 
+ember-cli-tachyons-shim@^4.9.1:
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-tachyons-shim/-/ember-cli-tachyons-shim-4.9.1.tgz#ee9262501d6f57d45b5279d5693e9a4238d60696"
+  dependencies:
+    ember-cli-babel "^6.3.0"
+
 ember-cli-test-info@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-test-info/-/ember-cli-test-info-1.0.0.tgz#ed4e960f249e97523cf891e4aed2072ce84577b4"
@@ -5713,6 +5719,10 @@ table@4.0.2:
     lodash "^4.17.4"
     slice-ansi "1.0.0"
     string-width "^2.1.1"
+
+tachyons@4.9.1:
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/tachyons/-/tachyons-4.9.1.tgz#f88d7059d6e53c833bf9351a26f18314c8fdc76a"
 
 tap-parser@^5.1.0:
   version "5.4.0"
