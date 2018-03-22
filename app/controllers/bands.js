@@ -21,7 +21,11 @@ export default Controller.extend({
             event.preventDefault();
             let newBand = Band.create({ name: this.get('newBandName') });
             this.get('model').pushObject(newBand);
-            this.set('newBandName', '');
+            this.setProperties({
+                newBandName: '',
+                isAddingBand: false
+            });
+            this.transitionToRoute('bands.band.songs', newBand);
         }
     }
 });
