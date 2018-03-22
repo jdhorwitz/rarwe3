@@ -22,6 +22,7 @@ export default Component.extend({
                 item: this.get('item'),
                 rating: newRating
             });
+            return this.get('onClick')(newRating);
         }
     }
 });
