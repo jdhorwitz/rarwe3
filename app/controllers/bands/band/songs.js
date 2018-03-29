@@ -30,6 +30,7 @@ export default Controller.extend({
         updateRating(song, rating) {
             let currentRating = song.get('rating');
             song.set('rating', currentRating === rating ? 0 : rating);
+            return song.save();
         }
     }
 });
