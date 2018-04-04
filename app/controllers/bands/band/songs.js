@@ -3,6 +3,10 @@ import { empty, sort } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
 export default Controller.extend({
+    queryParams: {
+        sortBy: 'sort',
+        searchTerm: 's',
+    },
     isAddingSong: false,
     newSongTitle: '',
 
@@ -47,6 +51,15 @@ export default Controller.extend({
         return options[this.get('sortBy')];
     }),
 
-    sortedSongs: sort('model.songs', 'sortProperties'),
+    sortedSongs: sort('matchingSongs', 'sortProperties'),
+
+    searchTerm: '',
+
+    matchingSongs: computed('model.songs.@each.title', 'searchTerm', function() {
+        let searchTerm = this.get('searchTerm').toLowerCase();
+        return this.get('model.songs').filter((song) => {
+            return song.get('title').toLowerCase().includes(searchTerm);
+        });
+    })
 
 });
