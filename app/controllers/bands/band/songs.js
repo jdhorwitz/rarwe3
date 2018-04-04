@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
-import { empty } from '@ember/object/computed';
+import { empty, sort } from '@ember/object/computed';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
     isAddingSong: false,
@@ -31,6 +32,21 @@ export default Controller.extend({
             let currentRating = song.get('rating');
             song.set('rating', currentRating === rating ? 0 : rating);
             return song.save();
-        }
-    }
+        },
+    },
+
+    sortBy: 'ratingDesc',
+
+    sortProperties: computed('sortBy', function() {
+        let options = {
+            ratingDesc: ['rating:desc', 'title:asc'],
+            ratingAsc: ['rating:asc', 'title:asc'],
+            titleDesc: ['title:desc'],
+            titleAsc: ['title:asc']
+        };
+        return options[this.get('sortBy')];
+    }),
+
+    sortedSongs: sort('model.songs', 'sortProperties'),
+
 });

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createBand } from 'rarwe/tests/helpers/custom-helpers';
@@ -29,5 +29,40 @@ module('Acceptance | Bands', function(hooks) {
         assert.dom('[data-test-rr=band-list-item]').exists({ count: 2 }, 'A new band link is rendered');
         assert.dom('[data-test-rr=band-list-item]:last-child').hasText('Caspian', 'The new band link is rendered as the last item');
         assert.dom('[data-test-rr=songs-nav-item] > .active').hasText('Songs', 'The Songs tab is active');
+    });
+
+    test('Sort songs in various ways', async function(assert) {
+        let band = server.create('band', { name: 'Them Crooked Vultures' });
+        server.create('song', { title: 'Elephants', rating: 5, band });
+        server.create('song', { title: 'New Fang', rating: 4, band });
+        server.create('song', { title: 'Mind Eraser, No Chaser', rating: 4, band });
+        server.create('song', { title: 'Spinning in Daffodils', rating: 5, band });
+
+        await visit('/');
+        await click('[data-test-rr=band-link]');
+
+        assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Elephants', 'The first song is the highest ranked, first one in the alphabet');
+        assert.dom('[data-test-rr=song-list-item]:last-child').hasText('New Fang', 'The last song is the lowest ranked, last one in the alphabet');
+
+        await click('[data-test-rr=sort-by-title-desc]');
+
+        assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Spinning in Daffodils', 'The first song is the one that comes last in the alphabet');
+        assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Elephants', 'The last song is the one that comes first in the alphabet');
+
+        await click('[data-test-rr=sort-by-title-asc]');
+
+        assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Spinning in Daffodils', 'The first song is the one that comes last in the alphabet');
+        assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Elephants', 'The last song is the one that comes first in the alphabet');
+
+        await click('[data-test-rr=sort-by-rating-asc]');
+
+        assert.dom('[data-test-rr=song-list-item]:last-child').hasText('Spinning in Daffodils', 'The first song is the one that comes last in the alphabet');
+        assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Mind Eraser, No Chaser', 'The last song is the one that comes first in the alphabet');
+
+        await click('[data-test-rr=sort-by-rating-desc]');
+
+        assert.dom('[data-test-rr=song-list-item]:first-child').hasText('Elephants', 'The first song is the one that comes last in the alphabet');
+        assert.dom('[data-test-rr=song-list-item]:last-child').hasText('New Fang', 'The last song is the one that comes first in the alphabet');
+        
     });
 });
