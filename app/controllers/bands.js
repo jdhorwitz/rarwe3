@@ -24,7 +24,7 @@ export default Controller.extend({
                 newBandName: '',
                 isAddingBand: false
             });
-            this.transitionToRoute('bands.band.songs', newBand.get('slug'));
+            this.transitionToRoute('bands.band.songs', newBand.get('id'));
         }
     }
 });
